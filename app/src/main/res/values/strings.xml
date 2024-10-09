@@ -4,4 +4,6 @@
     <string name="strikes">Strikes: </string>
     <string name="start">START</string>
     <string name="begin">Tap start to begin!</string>
+    <string name="numOrange">0</string>
+    <string name="numBlue">0</string>
 </resources>
