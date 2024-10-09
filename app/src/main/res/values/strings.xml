@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="score">Score: </string>
+    <string name="strikes">Strikes: </string>
+    <string name="start">START</string>
+    <string name="begin">Tap start to begin!</string>
+</resources>
