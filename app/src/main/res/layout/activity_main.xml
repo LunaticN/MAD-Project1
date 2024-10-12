@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:textSize="32sp"
         android:text="@string/begin"
+        android:id="@+id/screenText"
         android:layout_gravity="center"/>
 
 
@@ -65,7 +66,7 @@
         android:focusable="true"
         android:textAlignment="center"
         android:gravity="center"
-        android:text="@string/numBlue"
+        android:text=""
         android:textSize="64sp"
         android:layout_marginTop="48sp"
         android:clickable="true"/>
@@ -77,7 +78,7 @@
         android:layout_height="150dp"
         android:background="@color/orange"
         android:layout_gravity="center"
-        android:text="@string/numOrange"
+        android:text=""
         android:textAlignment="center"
         android:gravity="center"
         android:textSize="64sp"

@@ -1,17 +1,18 @@
 package com.example.myapplication
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+class MainActivity : AppCompatActivity() {
     var gameStarted: Boolean = false
+    var score: Int = 0
+    var strikes: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,12 +20,83 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val startButton: Button = findViewById(R.id.start)
         val blueButton: TextView = findViewById(R.id.blue_button)
         val orangeButton: TextView = findViewById(R.id.orange_button)
+        val layout: LinearLayout = findViewById(R.id.main)
+        val scoreText: TextView = findViewById(R.id.score)
+        val strikesText: TextView = findViewById(R.id.strikes)
+        val screenText: TextView = findViewById(R.id.screenText)
+
+        startButton.setOnClickListener {
+            if (!gameStarted){
+                layout.setBackgroundColor(Color.parseColor("#FFFDEF74"))
+                startButton.text = "START"
+                scoreText.setTextColor(Color.BLACK)
+                strikesText.setTextColor(Color.BLACK)
+                strikes = 0
+                score = 0
+                screenText.text = "Tap the larger number!"
+                gameStarted = true
+                blueButton.text = (0..100).random().toString()
+                orangeButton.text = (0..100).random().toString()
+
+                scoreText.text = "Score: " + score
+                strikesText.text = "Strikes: " + strikes
+            }
+        }
+
+        blueButton.setOnClickListener {
+            if (gameStarted){
+                mainMechanic(blueButton, orangeButton, layout, scoreText, strikesText)
+                endgame(startButton, blueButton, orangeButton, screenText, layout, scoreText, strikesText)
+            }
+        }
+
+        orangeButton.setOnClickListener {
+            if (gameStarted){
+                mainMechanic(blueButton, orangeButton, layout, scoreText, strikesText)
+                endgame(startButton, blueButton, orangeButton, screenText, layout, scoreText, strikesText)
+            }
+        }
     }
 
-    override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
+    fun endgame(startButton: Button, blueButton: TextView, orangeButton: TextView, screenText: TextView, layout: LinearLayout, scoreText: TextView, strikesText: TextView): Unit {
+        if (score == 10 || strikes == 3){
+            blueButton.text = ""
+            orangeButton.text = ""
+            screenText.text = "Tap restart to play again!"
+            startButton.text = "RESTART"
+            layout.setBackgroundColor(Color.parseColor("#FFFDEF74"))
+            gameStarted = false
+            if (score == 10){
+                Toast.makeText(this, "Congrats, you won!", Toast.LENGTH_SHORT).show()
+                scoreText.setTextColor(Color.GREEN)
+                strikesText.setTextColor(Color.BLACK)
+            }
+            else {
+                Toast.makeText(this, "Sorry, you lost", Toast.LENGTH_SHORT).show()
+                scoreText.setTextColor(Color.BLACK)
+                strikesText.setTextColor(Color.RED)
+            }
+        }
+        else{
+            blueButton.text = (0..100).random().toString()
+            orangeButton.text = (0..100).random().toString()
+        }
     }
 
-    //implement various lambda expressions for each button/clickable thing.
-    //for the orange and blue text views, check to see that the start button has been clicked by updating some kind of instance variable.
+    fun mainMechanic(blueButton: TextView, orangeButton: TextView, layout: LinearLayout, scoreText: TextView, strikesText: TextView): Unit {
+        scoreText.setTextColor(Color.BLACK)
+        strikesText.setTextColor(Color.BLACK)
+        if (Integer.parseInt(orangeButton.text.toString()) > Integer.parseInt(blueButton.text.toString())){
+            layout.setBackgroundColor(Color.GREEN)
+            score++
+            scoreText.text = "Score: " + score
+            scoreText.setTextColor(Color.YELLOW)
+        }
+        else if (Integer.parseInt(orangeButton.text.toString()) < Integer.parseInt(blueButton.text.toString())){
+            layout.setBackgroundColor(Color.RED)
+            strikes++
+            strikesText.text = "Strikes: " + strikes
+            strikesText.setTextColor(Color.YELLOW)
+        }
+    }
 }
