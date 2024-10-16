@@ -10,6 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var startButton: Button
+    private lateinit var blueButton: TextView
+    private lateinit var orangeButton: TextView
+    private lateinit var layout: LinearLayout
+    private lateinit var scoreText: TextView
+    private lateinit var strikesText: TextView
+    private lateinit var screenText: TextView
+
+
     var gameStarted: Boolean = false
     var score: Int = 0
     var strikes: Int = 0
@@ -17,16 +26,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val startButton: Button = findViewById(R.id.start)
-        val blueButton: TextView = findViewById(R.id.blue_button)
-        val orangeButton: TextView = findViewById(R.id.orange_button)
-        val layout: LinearLayout = findViewById(R.id.main)
-        val scoreText: TextView = findViewById(R.id.score)
-        val strikesText: TextView = findViewById(R.id.strikes)
-        val screenText: TextView = findViewById(R.id.screenText)
+        startButton = findViewById(R.id.start)
+        blueButton = findViewById(R.id.blue_button)
+        orangeButton = findViewById(R.id.orange_button)
+        layout = findViewById(R.id.main)
+        scoreText = findViewById(R.id.score)
+        strikesText = findViewById(R.id.strikes)
+        screenText = findViewById(R.id.screenText)
 
         startButton.setOnClickListener {
-            if (!gameStarted){
                 layout.setBackgroundColor(Color.parseColor("#FFFDEF74"))
                 startButton.text = "START"
                 scoreText.setTextColor(Color.BLACK)
@@ -37,10 +45,8 @@ class MainActivity : AppCompatActivity() {
                 gameStarted = true
                 blueButton.text = (0..100).random().toString()
                 orangeButton.text = (0..100).random().toString()
-
                 scoreText.text = "Score: " + score
                 strikesText.text = "Strikes: " + strikes
-            }
         }
 
         blueButton.setOnClickListener {
@@ -52,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         orangeButton.setOnClickListener {
             if (gameStarted){
-                mainMechanic(blueButton, orangeButton, layout, scoreText, strikesText)
+                mainMechanic(orangeButton, blueButton, layout, scoreText, strikesText)
                 endgame(startButton, blueButton, orangeButton, screenText, layout, scoreText, strikesText)
             }
         }
@@ -83,16 +89,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun mainMechanic(blueButton: TextView, orangeButton: TextView, layout: LinearLayout, scoreText: TextView, strikesText: TextView): Unit {
+    fun mainMechanic(buttonA: TextView, buttonB: TextView, layout: LinearLayout, scoreText: TextView, strikesText: TextView): Unit {
         scoreText.setTextColor(Color.BLACK)
         strikesText.setTextColor(Color.BLACK)
-        if (Integer.parseInt(orangeButton.text.toString()) > Integer.parseInt(blueButton.text.toString())){
+        if (Integer.parseInt(buttonA.text.toString()) > Integer.parseInt(buttonB.text.toString())){
             layout.setBackgroundColor(Color.GREEN)
             score++
             scoreText.text = "Score: " + score
             scoreText.setTextColor(Color.YELLOW)
         }
-        else if (Integer.parseInt(orangeButton.text.toString()) < Integer.parseInt(blueButton.text.toString())){
+        else if (Integer.parseInt(buttonA.text.toString()) < Integer.parseInt(buttonB.text.toString())){
             layout.setBackgroundColor(Color.RED)
             strikes++
             strikesText.text = "Strikes: " + strikes
